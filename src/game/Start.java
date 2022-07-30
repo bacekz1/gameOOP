@@ -10,7 +10,7 @@ public class Start {
         map.spawnBushes();
         map.spawnRock(map);
         map.printMap();
-        Engine.starGame(map);
+        Engine.beatTheMaze(map);
 
     }
 }
