@@ -5,19 +5,39 @@ class Player {
     private static int col;
 
     private static int coins = 0;
+    //todo
+    private static int bombs = 0;
+
+    private static int steps;
+
+    static int getSteps() {
+        return steps;
+    }
+
+    static void setSteps(int steps) {
+        if (steps < 0) {
+            System.out.println("Steps should be positive number");
+        } else {
+            Player.steps = steps;
+        }
+    }
+
+    static void decreaseSteps() {
+        Player.steps--;
+    }
 
     static int getCoins() {
         return coins;
     }
 
-    static void collectCoins() {
+    static void collectCoin() {
         Player.coins++;
     }
+
     static void exchangeCoins(int coins) {
-        if (Player.coins>= coins) {
+        if (Player.coins >= coins) {
             Player.coins -= coins;
-        }
-        else {
+        } else {
             System.out.println("You haven`t enough coins to buy this item :-/");
         }
     }

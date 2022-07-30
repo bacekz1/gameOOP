@@ -20,7 +20,7 @@ final class Engine {
                 Player.setRow(5, map);
                 Player.setCol(5, map);
                 devMode(map);
-                map.printMap();
+                map.printMazeMap();
                 System.out.println("Exit from dev mode");
                 beatTheMaze(map);
                 success = false;
@@ -62,7 +62,7 @@ final class Engine {
             int row = Player.getRow();
             int col = Player.getCol();
             map.map[Player.getRow()][Player.getCol()] = people;
-            map.printMap();
+            map.printMazeMap();
 
             String input = sc.nextLine();
             if (input.isEmpty()) {
@@ -89,8 +89,22 @@ final class Engine {
         }
     }
 
-    static void collectCoins(Map map){
+    static void collectCoins(Map map) {
+        map.map[Player.getRow()][Player.getCol()] = people;
+        map.printCoinMap();
+        while (Player.getSteps() > zero) {
 
+            char directions = Helper.sc.next().charAt(0);
+
+            switch (directions) {
+                case 'w' -> collectCoinsRowMove(map, UP);
+                case 'a' -> collectCoinsColMove(map, LEFT);
+                case 's' -> collectCoinsRowMove(map, DOWN);
+                case 'd' -> collectCoinsColMove(map, RIGHT);
+            }
+            Player.decreaseSteps();
+            map.printCoinMap();
+        }
     }
 
     static void beatTheMaze(Map map) {
@@ -112,19 +126,20 @@ final class Engine {
                 gameOver = true;
                 break;
             }
-            map.printMap();
+            map.printMazeMap();
         }
         if (success) {
-            map.printMap();
+            map.printMazeMap();
             System.out.println();
             System.out.println("Congrats you win the game");
-        }
-        else {
+        } else {
             map.map[Player.getRow()][Player.getCol()] = deadPeople;
-            map.printMap();
+            map.printMazeMap();
             System.out.println();
             System.out.println("Game over :(");
         }
+        gameOver = false;
+        success = false;
     }
 
     private static void devSetElement(Map map, char element) {
@@ -233,10 +248,25 @@ final class Engine {
             gameOver = true;
             return;
         }
-
-
+        if (map.map[Player.getRow() - direction][Player.getRow()] == coin) {
+            Player.collectCoin();
+        }
         map.map[Player.getRow()][Player.getCol()] = empty;
         Player.setRow(Player.getRow() - direction, map);
+        map.map[Player.getRow()][Player.getCol()] = people;
+    }
+
+    private static void collectCoinsColMove(Map map, int direction) {
+        //game over
+        if (isItOutOfBounds(map, Player.getCol() - direction)) {
+            gameOver = true;
+            return;
+        }
+        if (map.map[Player.getRow()][Player.getRow() - direction] == coin) {
+            Player.collectCoin();
+        }
+        map.map[Player.getRow()][Player.getCol()] = empty;
+        Player.setCol(Player.getCol() - direction, map);
         map.map[Player.getRow()][Player.getCol()] = people;
     }
 

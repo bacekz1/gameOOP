@@ -9,6 +9,8 @@ class Items {
     static final char deadPeople = 'D';
     static final char rock = 'R';
     static final char bush = '#';
+
+    static final char coin = 'c';
     static final int zero = 0;
 
     static final char difficult = 0;
